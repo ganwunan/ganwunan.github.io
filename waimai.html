@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>干物男的小屋 - 手工与服务系列</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f7;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* 顶部导航 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff9ecb, #ffc2e2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 158, 203, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff3366;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* 分类导航 */
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 10px;
+            background-color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            scrollbar-width: none;
+        }
+        
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-item {
+            flex: 0 0 auto;
+            padding: 8px 15px;
+            margin-right: 10px;
+            background-color: #fff0f5;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #ff6b9d;
+            box-shadow: 0 2px 6px rgba(255, 107, 157, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-item.active {
+            background: linear-gradient(to right, #ff6b9d, #ff9ecb);
+            color: white;
+        }
+        
+        /* 菜品区域 */
+        .menu-section {
+            margin-bottom: 25px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            scroll-margin-top: 100px; /* 为锚点跳转提供偏移 */
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #ffc2e2;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #ff6b9d;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+        }
+        
+        .section-subtitle {
+            color: #ff9ecb;
+            font-size: 0.9rem;
+        }
+        
+        /* 菜品列表 */
+        .dish-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .dish-item {
+            display: flex;
+            padding: 10px;
+            border-radius: 12px;
+            background-color: #fffafb;
+            transition: all 0.3s;
+        }
+        
+        .dish-item:hover {
+            background-color: #fff0f5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 107, 157, 0.1);
+        }
+        
+        .dish-image {
+            width: 100px;
+            height: 100px;
+            background-color: #ffeaf4;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff9ecb;
+            font-size: 2rem;
+            flex-shrink: 0;
+            margin-right: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .dish-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-placeholder {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            color: #ff6b9d;
+        }
+        
+        .dish-info {
+            flex-grow: 1;
+        }
+        
+        .dish-name {
+            font-size: 1.1rem;
+            color: #ff6b9d;
+            margin-bottom: 5px;
+        }
+        
+        .dish-desc {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            height: 36px;
+            overflow: hidden;
+        }
+        
+        .dish-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .dish-price-cart {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dish-price {
+            font-weight: bold;
+            color: #ff6b9d;
+            font-size: 1.1rem;
+        }
+        
+        .price-original {
+            font-size: 0.8rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 5px;
+        }
+        
+        .cart-control {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-minus, .cart-plus {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cart-minus {
+            background-color: #fff;
+            color: #ff6b9d;
+            border: 1px solid #ff6b9d;
+            display: none;
+        }
+        
+        .cart-plus {
+            background: linear-gradient(to right, #ff6b9d, #ff9ecb);
+            color: white;
+            border: none;
+        }
+        
+        .cart-count {
+            margin: 0 8px;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        /* 底部购物车 */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 90;
+        }
+        
+        .cart-total {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-price {
+            font-weight: bold;
+            color: #ff6b9d;
+            font-size: 1.3rem;
+        }
+        
+        .cart-desc {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(to right, #ff6b9d, #ff9ecb);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+        
+        .checkout-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* 点单反馈动画 */
+        @keyframes addToCart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .cart-animation {
+            animation: addToCart 0.5s ease;
+        }
+        
+        /* 支付二维码模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            width: 350px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: #ff6b9d;
+        }
+        
+        .modal-title {
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .qrcode-container {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .qrcode-image {
+            width: 200px;
+            height: 200px;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ccc;
+            font-size: 5rem;
+            margin: 0 auto;
+        }
+        
+        .qrcode-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .modal-desc {
+            color: #666;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .dish-image {
+                width: 80px;
+                height: 80px;
+                font-size: 1.7rem;
+            }
+            
+            .dish-name {
+                font-size: 1rem;
+            }
+            
+            .checkout-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .modal-content {
+                width: 300px;
+                padding: 20px;
+            }
+            
+            .qrcode-image {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>無信號的外卖小屋</h1>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <div class="cart-count">0</div>
+            </div>
+        </div>
+        
+        <div class="category-nav">
+            <div class="category-item active" data-target="new-products">新品上市</div>
+            <div class="category-item" data-target="handmade">本人手工</div>
+            <div class="category-item" data-target="signature">招牌必点</div>
+            <div class="category-item" data-target="services">服务系列</div>
+            <div class="category-item" data-target="autographs">签名照...</div>
+        </div>
+        
+        <div id="new-products" class="menu-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-crown"></i> 新品上市</h2>
+                    <p class="section-subtitle">新鲜上市，咸蜜尝鲜</p>
+                </div>
+            </div>
+            
+            <div class="dish-list">
+                <!-- 菜品1 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="30a9bc72dcd76985c43b397779b75ae.png"/>
+                        <div class="image-placeholder"></div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">电烤火碱鱿鱼须！！</h3>
+                        <p class="dish-desc">千年鱿鱼须配上新鲜的火碱溶液，让鱿鱼焕发永久青春荣光</p>
+                        <div class="dish-stats">
+                            <span>月售100+</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥28</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 菜品2 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="e1736fe015b5b1e885a4ce07b8c0481.png"/>
+                        <div class="image-placeholder"></div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">暴雷香火鸡面</h3>
+                        <p class="dish-desc">廉价火鸡面配上前年卤蛋，让你流连忘返，一泻千里..</p>
+                        <div class="dish-stats">
+                            <span>月售100+</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥32 <span class="price-original">¥38</span></div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="handmade" class="menu-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-hand-sparkles"></i> 本人手工</h2>
+                    <p class="section-subtitle">纯手工制作，用心打造每一件作品</p>
+                </div>
+            </div>
+            
+            <div class="dish-list">
+                <!-- 手工1 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                       </i><img src="9f27754f2eea02b2aae884f9cf4d365.png"/>
+                        <div class="image-placeholder">啾咪</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">预制菜大杂烩</h3>
+                        <p class="dish-desc">纯预制，无天然，大学生吃了都说好捏</p>
+                        <div class="dish-stats">
+                            <span>月售45</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥128</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 手工2 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="32bc4933e2a12660a01a521c02af3f8.png"/>
+                        <div class="image-placeholder">豪吃！</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">洋肉串</h3>
+                        <p class="dish-desc">大洋货，不知道是羊还是鸭肉.？</p>
+                        <div class="dish-stats">
+                            <span>月售62</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥88 <span class="price-original">¥108</span></div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+              
+            </div>
+        </div>
+        
+        <div id="signature" class="menu-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-award"></i> 招牌必点</h2>
+                    <p class="section-subtitle">人气爆款，不容错过</p>
+                </div>
+            </div>
+            
+            <div class="dish-list">
+                <!-- 招牌1 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="36abca4f7c4ca40d8c3ceec8d10bd65.png"/>
+                        <div class="image-placeholder"></div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">+18元送主播签名照(ಥ_ಥ) </h3>
+                        <p class="dish-desc">外皮Q弹，内馅爆浆，冰爽口感夏日必备</p>
+                        <div class="dish-stats">
+                            <span>月售200+</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥18</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 招牌2 -->
+               <!-- <div class="dish-item">
+                    <div class="dish-image">
+                        <i class="fas fa-stroopwafel"></i>
+                        <div class="image-placeholder">待添加图片</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">杨梅芭乐乳酪雪贝</h3>
+                        <p class="dish-desc">杨梅与芭乐的奇妙组合，酸甜可口不腻</p>
+                        <div class="dish-stats">
+                            <span>月售150+</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥26</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <div id="services" class="menu-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-concierge-bell"></i> 服务系列</h2>
+                    <p class="section-subtitle">专业服务，贴心体验</p>
+                </div>
+            </div>
+            
+            <div class="dish-list">
+                <!-- 服务1 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="78aaef43b7fc2379b5209a1c340e6ad.png"/>
+                        <div class="image-placeholder">压力</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">个人写真拍摄</h3>
+                        <p class="dish-desc">专业摄影师，精致妆造，只接受小小软软的小男孩客户。</p>
+                        <div class="dish-stats">
+                            <span>已服务1200000+人</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥399 <span class="price-original">¥499</span></div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 服务2 -->
+             <!--   <div class="dish-item">
+                    <div class="dish-image">
+                        <i class="fas fa-hands"></i>
+                        <div class="image-placeholder">待添加图片</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">手部护理SPA</h3>
+                        <p class="dish-desc">专业手部护理，滋养嫩滑，让双手焕发光彩</p>
+                        <div class="dish-stats">
+                            <span>已服务89人</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥128</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                
+                <!-- 服务3 -->
+               <!-- <div class="dish-item">
+                    <div class="dish-image">
+                        <i class="fas fa-paint-brush"></i>
+                        <div class="image-placeholder">待添加图片</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">个性化美甲设计</h3>
+                        <p class="dish-desc">根据您的喜好定制专属美甲，展现独特魅力</p>
+                        <div class="dish-stats">
+                            <span>已服务156人</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥158 <span class="price-original">¥188</span></div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <div id="autographs" class="menu-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-signature"></i> 签名照...</h2>
+                    <p class="section-subtitle">珍藏版签名照，限量发售</p>
+                </div>
+            </div>
+            
+            <div class="dish-list">
+                <!-- 签名1 -->
+                <div class="dish-item">
+                    <div class="dish-image">
+                        <img src="1e5164694ec822a92ddd0a8ae968678.png"/>
+                        <div class="image-placeholder"></div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">本人签名照片</h3>
+                        <p class="dish-desc">精选主播本人签名照，限量发售，收藏价值高！！</p>
+                        <div class="dish-stats">
+                            <span>月售32</span>
+                            <span><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥199 <span class="price-original">¥259</span></div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 签名2 -->
+             <!--   <div class="dish-item">
+                    <div class="dish-image">
+                        <i class="fas fa-certificate"></i>
+                        <div class="image-placeholder">待添加图片</div>
+                    </div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">定制签名相框</h3>
+                        <p class="dish-desc">精美相框+专属签名，适合送礼或收藏</p>
+                        <div class="dish-stats">
+                            <span>月售28</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="dish-price-cart">
+                            <div class="dish-price">¥159</div>
+                            <div class="cart-control">
+                                <div class="cart-minus">-</div>
+                                <div class="cart-count">0</div>
+                                <div class="cart-plus">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部购物车 -->
+    <div class="cart-bar">
+        <div class="cart-total">
+            <div class="cart-price">¥0</div>
+            <div class="cart-desc">另需配送费约¥2.5</div>
+        </div>
+        <button class="checkout-btn disabled">去结算</button>
+    </div>
+    
+    <!-- 支付二维码模态框 -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 class="modal-title">请扫码支付</h2>
+            <div class="qrcode-container">
+                <div class="qrcode-image">
+                    
+                    <!-- 后期替换为您的二维码图片 -->
+                    <img src="430cadaf8b79d317581dd6a05c406b0.jpg" alt="支付二维码"> 
+                </div>
+            </div>
+            <p class="modal-desc">请使用微信或支付宝扫描二维码完成支付</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化购物车
+            let cart = [];
+            const cartBar = document.querySelector('.cart-bar');
+            const cartPrice = document.querySelector('.cart-price');
+            const cartDesc = document.querySelector('.cart-desc');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            const headerCartCount = document.querySelector('.header .cart-count');
+            
+            // 获取模态框元素
+            const modal = document.getElementById('payment-modal');
+            const modalClose = document.querySelector('.modal-close');
+            
+            // 为所有加减按钮添加事件
+            document.querySelectorAll('.cart-plus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dishItem = this.closest('.dish-item');
+                    const countElement = dishItem.querySelector('.cart-count');
+                    const minusButton = dishItem.querySelector('.cart-minus');
+                    let count = parseInt(countElement.textContent);
+                    
+                    count++;
+                    countElement.textContent = count;
+                    minusButton.style.display = 'flex';
+                    
+                    // 获取菜品信息
+                    const dishName = dishItem.querySelector('.dish-name').textContent;
+                    const dishPrice = parseFloat(dishItem.querySelector('.dish-price').textContent.replace('¥', ''));
+                    
+                    // 添加到购物车
+                    addToCart(dishName, dishPrice);
+                    
+                    // 动画效果
+                    this.classList.add('cart-animation');
+                    setTimeout(() => {
+                        this.classList.remove('cart-animation');
+                    }, 500);
+                });
+            });
+            
+            document.querySelectorAll('.cart-minus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dishItem = this.closest('.dish-item');
+                    const countElement = dishItem.querySelector('.cart-count');
+                    let count = parseInt(countElement.textContent);
+                    
+                    if (count > 0) {
+                        count--;
+                        countElement.textContent = count;
+                        
+                        // 获取菜品信息
+                        const dishName = dishItem.querySelector('.dish-name').textContent;
+                        
+                        // 从购物车移除
+                        removeFromCart(dishName);
+                    }
+                    
+                    if (count === 0) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+            
+            // 添加到购物车函数
+            function addToCart(name, price) {
+                // 检查是否已在购物车中
+                const existingItem = cart.find(item => item.name === name);
+                
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+            }
+            
+            // 从购物车移除函数
+            function removeFromCart(name) {
+                const index = cart.findIndex(item => item.name === name);
+                
+                if (index !== -1) {
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity--;
+                    } else {
+                        cart.splice(index, 1);
+                    }
+                    
+                    updateCart();
+                }
+            }
+            
+            // 更新购物车显示
+            function updateCart() {
+                // 计算总价和总数量
+                let totalPrice = 0;
+                let totalCount = 0;
+                
+                cart.forEach(item => {
+                    totalPrice += item.price * item.quantity;
+                    totalCount += item.quantity;
+                });
+                
+                // 更新显示
+                cartPrice.textContent = `¥${totalPrice.toFixed(2)}`;
+                headerCartCount.textContent = totalCount;
+                
+                // 更新购物车描述
+                if (totalCount > 0) {
+                    cartDesc.textContent = `共${totalCount}件商品，另需配送费约¥2.5`;
+                    checkoutBtn.classList.remove('disabled');
+                    checkoutBtn.textContent = `去结算`;
+                } else {
+                    cartDesc.textContent = '另需配送费约¥2.5';
+                    checkoutBtn.classList.add('disabled');
+                    checkoutBtn.textContent = '去结算';
+                }
+                
+                // 头部购物车图标动画
+                if (totalCount > 0) {
+                    headerCartCount.classList.add('cart-animation');
+                    setTimeout(() => {
+                        headerCartCount.classList.remove('cart-animation');
+                    }, 500);
+                }
+            }
+            
+            // 分类导航点击事件
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.category-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // 获取目标区块ID
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // 跳转到对应区块
+                    if (targetId) {
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            // 平滑滚动到目标位置
+                            targetSection.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // 结算按钮点击事件
+            checkoutBtn.addEventListener('click', function() {
+                if (!this.classList.contains('disabled')) {
+                    // 显示支付二维码模态框
+                    modal.style.display = 'flex';
+                }
+            });
+            
+            // 关闭模态框
+            modalClose.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // 点击模态框背景关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
