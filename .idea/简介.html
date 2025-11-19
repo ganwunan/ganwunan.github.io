@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek AI - 新一代人工智能助手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --success: #10b981;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(120deg, #e0f2fe 0%, #f0f9ff 50%, #e0f2fe 100%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--gray);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: #6d28d9;
+            box-shadow: 0 6px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        .capabilities {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .capability-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .capability-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .capability-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .comparison {
+            background: white;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 1.2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .check {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .cta {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .features {
+                padding: 2rem 1.5rem;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            <span>DeepSeek AI</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#features">核心功能</a></li>
+                <li><a href="#capabilities">应用领域</a></li>
+                <li><a href="#comparison">优势对比</a></li>
+                <li><a href="#cta">立即体验</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>DeepSeek AI - 新一代人工智能助手</h1>
+        <p>由深度求索公司开发的先进大语言模型，具备强大的推理能力和广泛的知识覆盖，为您提供智能、高效的解决方案。</p>
+        <a href="#cta" class="btn">立即体验</a>
+        <a href="#features" class="btn btn-secondary">了解更多</a>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>核心功能</h2>
+            <p>DeepSeek AI 提供多种强大功能，满足您的各种需求</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>智能对话</h3>
+                <p>能够进行自然、流畅的对话，理解上下文，提供有深度的回答和建议。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>创意生成</h3>
+                <p>协助创作文章、故事、诗歌、代码等多种内容，激发您的创造力。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>代码编程</h3>
+                <p>支持多种编程语言，帮助编写、调试和优化代码，提高开发效率。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>学习辅导</h3>
+                <p>提供各学科知识解答和学习指导，帮助您更好地理解和掌握知识。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>数据分析</h3>
+                <p>协助分析数据、制作图表和报告，提供有价值的商业洞察。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>多语言支持</h3>
+                <p>支持多种语言交流与翻译，打破语言障碍，促进全球沟通。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="capabilities" id="capabilities">
+    <div class="container">
+        <div class="section-title">
+            <h2>应用领域</h2>
+            <p>DeepSeek AI 在各行各业中都有广泛的应用</p>
+        </div>
+        <div class="capabilities-grid">
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>商业分析</h3>
+                <p>市场研究、数据分析、战略规划</p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>软件开发</h3>
+                <p>代码编写、调试、优化和文档生成</p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+                <h3>内容创作</h3>
+                <p>文章写作、创意策划、营销文案</p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>教育学习</h3>
+                <p>学科辅导、知识解答、学习规划</p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>研究分析</h3>
+                <p>文献综述、数据分析、报告撰写</p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>客户服务</h3>
+                <p>智能客服、问题解答、服务支持</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="comparison" id="comparison">
+    <div class="container">
+        <div class="section-title">
+            <h2>优势对比</h2>
+            <p>了解 DeepSeek AI 与其他AI模型的区别</p>
+        </div>
+        <table class="comparison-table">
+            <thead>
+            <tr>
+                <th>功能特性</th>
+                <th>DeepSeek AI</th>
+                <th>其他AI模型</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>上下文理解能力</td>
+                <td class="check">优秀</td>
+                <td>良好</td>
+            </tr>
+            <tr>
+                <td>推理能力</td>
+                <td class="check">强大</td>
+                <td>一般</td>
+            </tr>
+            <tr>
+                <td>代码生成质量</td>
+                <td class="check">卓越</td>
+                <td>良好</td>
+            </tr>
+            <tr>
+                <td>多语言支持</td>
+                <td class="check">全面</td>
+                <td>有限</td>
+            </tr>
+            <tr>
+                <td>响应速度</td>
+                <td class="check">快速</td>
+                <td>中等</td>
+            </tr>
+            <tr>
+                <td>知识更新频率</td>
+                <td class="check">定期更新</td>
+                <td>不定期</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="cta" id="cta">
+    <div class="container">
+        <h2>立即体验 DeepSeek AI</h2>
+        <p>探索人工智能的强大功能，提升您的工作效率和学习效果</p>
+        <a href="#" class="btn">免费注册</a>
+        <a href="#" class="btn btn-secondary">查看演示</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>关于我们</h3>
+                <ul>
+                    <li><a href="#">公司简介</a></li>
+                    <li><a href="#">发展历程</a></li>
+                    <li><a href="#">团队介绍</a></li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>产品服务</h3>
+                <ul>
+                    <li><a href="#">DeepSeek AI</a></li>
+                    <li><a href="#">API 接口</a></li>
+                    <li><a href="#">企业解决方案</a></li>
+                    <li><a href="#">定价方案</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>资源中心</h3>
+                <ul>
+                    <li><a href="#">使用文档</a></li>
+                    <li><a href="#">教程指南</a></li>
+                    <li><a href="#">博客文章</a></li>
+                    <li><a href="#">常见问题</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>关注我们</h3>
+                <p>获取最新动态和产品更新</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 DeepSeek AI. 深度求索公司 版权所有</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
